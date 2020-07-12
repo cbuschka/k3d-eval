@@ -1,0 +1,3 @@
+*.yml
+install.sh
+k3d*
