@@ -130,6 +130,11 @@ spec:
   type: ClusterIP
 EOB
 
+kubectl apply -f dev-namespace.yml -f hello-service.yml -f hello-deployment.yml
+```
+
+### configure ingress (https://docs.traefik.io/v1.7/configuration/backends/kubernetes/)
+```
 cat - > hello-ingress.yml <<EOB
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -148,7 +153,7 @@ spec:
           servicePort: 80
 EOB
 
-kubectl apply -f dev-namespace.yml -f hello-service.yml -f hello-deployment.yml -f hello-ingress.yml
+kubectl apply -f hello-ingress.yml
 ```
 
 ## access service via proxy
