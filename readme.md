@@ -13,7 +13,7 @@ chmod 755 k3d
 
 ### create a local cluster
 ```shell
-./k3d create --api-port 6443 --port 80:80@loadbalancer --name=testcluster --workers 2
+./k3d create --api-port 6443 --publish 0.0.0.0:80:80 --publish 0.0.0.0:443:443 --name=testcluster --workers 2
 
 ./k3d start --name=testcluster
 
@@ -67,7 +67,7 @@ kubectl create -f dashboard.admin-user.yml -f dashboard.admin-user-role.yml
 
 ### get admin token
 ```
-kubectl -n kubernetes-dashboard describe secret admin-user-token | grep ^token
+kubectl -n kubernetes-dashboard describe secret admin-user-token | grep ^token | perl -pe 's#^.*token\:\s*([^\s\n]+).*$#$1#g'
 ```
 
 ### start proxy (tunnel requests to localhost:8001 to k8s api)
@@ -127,7 +127,7 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 8080
-  type: NodePort
+  type: ClusterIP
 EOB
 
 cat - > hello-ingress.yml <<EOB
@@ -151,8 +151,12 @@ EOB
 kubectl apply -f dev-namespace.yml -f hello-service.yml -f hello-deployment.yml -f hello-ingress.yml
 ```
 
-## access service via proxy (ingress is not working)
+## access service via proxy
 http://localhost:8001/api/v1/namespaces/dev/services/http:hello-service:80/proxy/#
+
+or via ingress
+
+http://localhost/hello
 
 ## clean up
 ```
