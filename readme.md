@@ -87,9 +87,6 @@ metadata:
   name: dev
 EOB
 
-kubectl apply -f dev-namespace.yml
-```
-
 cat - > hello-deployment.yml <<EOB
 apiVersion: apps/v1
 kind: Deployment
@@ -133,8 +130,6 @@ spec:
   type: NodePort
 EOB
 
-kubectl apply -f hello-service.yml -f hello-deployment.yml
-
 cat - > hello-ingress.yml <<EOB
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -153,7 +148,7 @@ spec:
           servicePort: 80
 EOB
 
-kubectl apply -f hello-ingress.yml
+kubectl apply -f dev-namespace.yml -f hello-service.yml -f hello-deployment.yml -f hello-ingress.yml
 ```
 
 ## access service via proxy (ingress is not working)
