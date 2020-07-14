@@ -1,4 +1,4 @@
-#!/bin/bash
+2.16.9#!/bin/bash
   
 PROJECT_DIR=$(cd `dirname $0` && pwd)
 cd ${PROJECT_DIR}
@@ -27,7 +27,7 @@ metadata:
   labels:
     app: hello
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: hello
