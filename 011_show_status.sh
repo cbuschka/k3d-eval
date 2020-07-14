@@ -24,3 +24,6 @@ kubectl get namespaces
 
 echo "Pods in cluster ${CLUSTER_NAME}..."
 kubectl get pods --all-namespaces
+
+echo "Ingresses of cluster ${CLUSTER_NAME}..."
+kubectl get ingresses --all-namespaces
