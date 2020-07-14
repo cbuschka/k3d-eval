@@ -13,11 +13,4 @@ echo "Starting cluster..."
 
 ./k3d list
 
-export KUBECONFIG="$(./k3d get-kubeconfig --name=${CLUSTER_NAME})"
-kubectl cluster-info 
-
-echo "Nodes of cluster ${CLUSTER_NAME}..."
-kubectl get nodes
-
-echo "Pods in cluster ${CLUSTER_NAME}..."
-kubectl get pods --all-namespaces
+./012_show_status.sh
