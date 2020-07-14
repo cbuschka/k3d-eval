@@ -38,3 +38,5 @@ read
 helm upgrade -i flux fluxcd/flux --set git.url=git@github.com:cbuschka/flux-get-started --namespace flux 
 
 helm upgrade -i helm-operator fluxcd/helm-operator --set git.ssh.secretName=flux-git-deploy --namespace flux
+
+./fluxctl sync --k8s-fwd-ns flux
