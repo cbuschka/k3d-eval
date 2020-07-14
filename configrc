@@ -1,0 +1,2 @@
+CLUSTER_NAME=testcluster
+K3D_VERSION=v1.7.0
