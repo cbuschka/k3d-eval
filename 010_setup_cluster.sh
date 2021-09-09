@@ -1,14 +1,16 @@
 #!/bin/bash
-  
+
+set -e
+ 
 PROJECT_DIR=$(cd `dirname $0` && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
 
 echo "Creating cluster ${CLUSTER_NAME}..."
-./k3d create --api-port 6443 --publish 0.0.0.0:80:80 --publish 0.0.0.0:443:443 --name=${CLUSTER_NAME} --workers ${WORKER_COUNT}
+./k3d cluster create ${CLUSTER_NAME} --api-port 6443 --port 0.0.0.0:80:80@server[0] --port 0.0.0.0:443:443@server[0] --servers ${SERVER_COUNT}
 
 echo "Starting cluster..."
-./k3d start --name=${CLUSTER_NAME}
+./k3d cluster start ${CLUSTER_NAME}
 
 ./011_show_status.sh

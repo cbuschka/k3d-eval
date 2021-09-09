@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 PROJECT_DIR=$(cd `dirname $0` && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
 
-export KUBECONFIG="$(./k3d get-kubeconfig --name=${CLUSTER_NAME})"
+./k3d kubeconfig merge ${CLUSTER_NAME}
 
 echo "Installing dashboard..."
 VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubernetes/dashboard/releases/latest -o /dev/null | sed -e 's|.*/||')

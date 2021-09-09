@@ -1,11 +1,13 @@
-2.16.9#!/bin/bash
-  
+#!/bin/bash
+
+set -e
+ 
 PROJECT_DIR=$(cd `dirname $0` && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
 
-export KUBECONFIG="$(./k3d get-kubeconfig --name=${CLUSTER_NAME})"
+./k3d kubeconfig merge ${CLUSTER_NAME}
 
 echo "Creating dev namespace..."
 cat - > /tmp/dev-namespace.yml <<EOB
@@ -39,7 +41,10 @@ spec:
     spec:
       containers:
       - name: hello
-        image: docker.io/cbuschka/myhello:3.0
+        image: docker.io/cbuschka/myhello:5.0
+        env:
+          - name: MESSAGE
+            value: "Moin!"
         ports:
         - containerPort: 8080
 EOB
@@ -67,7 +72,7 @@ kubectl apply -f /tmp/hello-service.yml
 
 echo "Creating ingress..."
 cat - > /tmp/hello-ingress.yml <<EOB
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-ingress
@@ -79,9 +84,12 @@ spec:
   - http:
       paths:
       - path: /hello
+        pathType: Prefix
         backend:
-          serviceName: hello-service
-          servicePort: 80
+          service:
+            name: hello-service
+            port:
+              number: 80
 EOB
 
 kubectl apply -f /tmp/hello-ingress.yml
