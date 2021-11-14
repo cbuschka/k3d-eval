@@ -2,7 +2,7 @@
 
 set -e
   
-PROJECT_DIR=$(cd `dirname $0` && pwd)
+PROJECT_DIR=$(cd `dirname $0`/.. && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
@@ -16,6 +16,7 @@ echo "k3d docker containers..."
 docker ps | grep k3d
 
 ./k3d kubeconfig merge ${CLUSTER_NAME}
+
 kubectl cluster-info 
 
 echo "Nodes of cluster ${CLUSTER_NAME}..."

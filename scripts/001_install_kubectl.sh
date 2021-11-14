@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_DIR=$(cd `dirname $0` && pwd)
+PROJECT_DIR=$(cd `dirname $0`/.. && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
@@ -13,4 +13,6 @@ if [ -z "$(which kubectl 2>/dev/null)" ] && [ ! -f "./kubectl" ]; then
   curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o ./kubectl-${KUBECTL-VERSION}
   rm -f kubectl
   ln -s kubectl-${KUBECTL_VERSION} kubectl
+else
+  echo "kubectl found."
 fi

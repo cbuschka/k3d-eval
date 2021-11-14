@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_DIR=$(cd `dirname $0` && pwd)
+PROJECT_DIR=$(cd `dirname $0`/.. && pwd)
 cd ${PROJECT_DIR}
 
 source ${PROJECT_DIR}/configrc
@@ -44,7 +44,7 @@ EOB
 kubectl apply -f /tmp/dashboard.admin-user-role.yml
 
 echo "
-Get token via ./get_token.sh, 
+Get token via ./scripts/get_token.sh,
 start proxy with 'kubectl proxy' 
 and use browser to login to http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 " 
