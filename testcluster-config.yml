@@ -1,0 +1,54 @@
+# schema: https://github.com/rancher/k3d/blob/main/pkg/config/v1alpha3/schema.json
+apiVersion: k3d.io/v1alpha3
+kind: Simple
+name: testcluster
+servers: 1
+agents: 1
+kubeAPI:
+#  host: "testcluster.local"
+  hostIP: "127.0.0.1"
+  hostPort: "6443"
+#image: rancher/k3s:v1.20.4-k3s1
+#network: k3d-testcluster
+#token: superSecretToken
+#volumes:
+#  - volume: /my/host/path:/path/in/node
+#    nodeFilters:
+#      - server:0
+#      - agent:*
+ports:
+  - port: 0.0.0.0:80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 0.0.0.0:443:443
+    nodeFilters:
+      - loadbalancer
+#labels:
+#  - label: foo=bar # same as `--label 'foo=bar@agent[1]'`
+#    nodeFilters:
+#      - agent[1]
+#env:
+#  - envVar: bar=baz # same as `--env 'bar=baz@server[0]'`
+#    nodeFilters:
+#      - server[0]
+#registries:
+#  create:
+#    name: registry.localhost
+#options:
+#  k3d:
+#    wait: true
+#    timeout: "120s"
+#    disableLoadbalancer: false
+#    disableImageVolume: false
+#    disableRollback: false
+#k3s:
+#  extraArgs:
+#      - --tls-san=my.host.domain
+#   - arg: --disable=traefik
+#     nodeFilters:
+#       - server:*
+#  kubeconfig:
+#    updateDefaultKubeconfig: true # add new cluster to your default Kubeconfig; same as `--kubeconfig-update-default` (default: true)
+#    switchCurrentContext: true # also set current-context to the new cluster's context; same as `--kubeconfig-switch-context` (default: true)
+#  runtime:
+#    gpuRequest: all
